@@ -3,220 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>خيانة في الهاوية - النسخة الكاملة</title>
+    <title>ملجأ العزلة: استراتيجية البقاء</title>
     <style>
-        :root { --bg: #09090c; --card: #141419; --border: #23232f; --accent: #3b82f6; --danger: #ef4444; --success: #10b981; --warning: #f59e0b; }
-        body { background: var(--bg); color: #f3f4f6; font-family: Tahoma, sans-serif; margin: 0; padding: 10px; text-align: center; }
-        .wrapper { max-width: 440px; margin: auto; background: var(--card); padding: 14px; border-radius: 14px; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-        h2 { margin: 5px 0 12px 0; font-size: 18px; color: #60a5fa; letter-spacing: 0.5px; }
+        * { box-sizing: border-box; }
+        body { background: #070709; color: #e2e8f0; font-family: Tahoma, sans-serif; margin: 0; padding: 8px; text-align: center; }
+        .game-container { max-width: 420px; margin: auto; background: #111116; padding: 12px; border-radius: 12px; border: 1px solid #1f1f2e; box-shadow: 0 8px 25px rgba(0,0,0,0.9); }
+        h2 { margin: 4px 0 10px 0; font-size: 16px; color: #38bdf8; }
         
-        .status-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
-        .stat-box { background: #1c1c24; padding: 8px 4px; border-radius: 8px; font-size: 12px; border: 1px solid var(--border); }
-        .stat-box span { display: block; font-weight: bold; margin-top: 2px; font-size: 13px; }
+        .panel { background: #181822; border: 1px solid #272738; padding: 8px; border-radius: 8px; margin-bottom: 8px; text-align: right; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-bottom: 8px; }
+        .stat-box { background: #1c1c28; padding: 6px; border-radius: 6px; font-size: 11px; border: 1px solid #2a2a3d; }
+        .stat-box span { display: block; font-weight: bold; font-size: 12px; margin-top: 2px; color: #f8fafc; }
         
-        .main-stats { background: #1c1c24; padding: 10px; border-radius: 8px; margin-bottom: 12px; text-align: right; border-right: 4px solid var(--accent); font-size: 13px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+        .resource-row { display: flex; justify-content: space-between; font-size: 12px; margin: 4px 0; padding: 4px 6px; background: #15151f; border-radius: 4px; }
         
-        .section-title { font-size: 13px; font-weight: bold; color: #9ca3af; text-align: right; margin: 10px 0 6px 4px; }
+        .map-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
+        .map-btn { background: #1f1f30; border: 1px solid #32324d; color: #fff; padding: 10px; border-radius: 6px; cursor: pointer; text-align: right; font-size: 11px; }
+        .map-btn:active { background: #2e2e4a; }
+        .map-btn b { display: block; color: #fbbf24; font-size: 12px; margin-bottom: 2px; }
         
-        .map-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px; }
-        .map-card { background: #1c1c24; border: 1px solid var(--border); padding: 10px; border-radius: 8px; text-align: right; cursor: pointer; transition: 0.2s; }
-        .map-card:active { background: #282835; }
-        .map-card h4 { margin: 0 0 4px 0; font-size: 13px; color: #fbbf24; }
-        .map-card p { margin: 0; font-size: 10px; color: #9ca3af; }
+        .action-main { width: 100%; background: #0284c7; color: #fff; border: none; padding: 10px; font-size: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 6px; }
+        .action-main:active { background: #0369a1; }
         
-        .action-btn { width: 100%; background: var(--accent); color: #fff; border: none; padding: 10px; font-size: 13px; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 6px; }
-        .action-btn:active { background: #2563eb; }
-        .btn-green { background: var(--success); }
-        .btn-red { background: var(--danger); }
-        
-        .modal { display: none; background: rgba(0,0,0,0.85); position: fixed; top: 0; left: 0; width: 100%; height: 100%; justify-content: center; align-items: center; z-index: 100; }
-        .modal-content { background: #1a1a22; padding: 16px; border-radius: 10px; width: 85%; max-width: 350px; border: 1px solid var(--warning); text-align: right; }
-        
-        .log-box { background: #0b0b0f; border: 1px solid var(--border); color: #9ca3af; font-size: 11px; padding: 8px; border-radius: 8px; height: 90px; overflow-y: auto; text-align: right; margin-top: 10px; line-height: 1.4; }
+        .console { background: #050508; border: 1px solid #1a1a26; color: #94a3b8; font-size: 10px; padding: 6px; border-radius: 6px; height: 75px; overflow-y: auto; text-align: right; margin-top: 8px; line-height: 1.3; }
     </style>
 </head>
 <body>
 
-<div class="wrapper">
-    <h2>⚡ خيانة في الهاوية</h2>
+<div class="game-container">
+    <h2>🛡️ استراتيجية البقاء: الملجأ الأخير</h2>
 
-    <div class="status-grid">
-        <div class="stat-box">📅 اليوم: <span id="vDay" style="color:#60a5fa">1</span></div>
-        <div class="stat-box">👥 الناجون: <span id="vSurvivors" style="color:#34d399">6</span></div>
-        <div class="stat-box">🛡️ الحالة: <span id="vStatus" style="color:#fbbf24">مستقر</span></div>
+    <div class="stats-grid">
+        <div class="stat-box">📅 اليوم<span id="lblDay" style="color:#38bdf8">1</span></div>
+        <div class="stat-box">👥 الناجون<span id="lblSurvivors" style="color:#4ade80">6</span></div>
+        <div class="stat-box">⚔️ التهديد<span id="lblThreat" style="color:#f87171">منخفض</span></div>
     </div>
 
-    <div class="main-stats">
-        <div>🍖 المؤن: <span id="vFood" style="color:#f87171">80</span></div>
-        <div>⚡ الطاقة: <span id="vEnergy" style="color:#fbbf24">100</span></div>
-        <div>🧱 الدفاع: <span id="vDefense" style="color:#60a5fa">40</span></div>
-        <div>🎒 قطع أثرية: <span id="vItems" style="color:#34d399">0</span></div>
+    <div class="panel">
+        <div style="font-size: 11px; font-weight: bold; color: #a855f7; margin-bottom: 4px;">📊 حالة مخزون الملجأ</div>
+        <div class="resource-row"><span>🍖 الغذاء والتموين:</span> <b id="resFood" style="color:#f87171">100</b></div>
+        <div class="resource-row"><span>⚡ طاقة المولد:</span> <b id="resEnergy" style="color:#fbbf24">100</b></div>
+        <div class="resource-row"><span>🧱 تحصينات السور:</span> <b id="resDefense" style="color:#38bdf8">50</b></div>
     </div>
 
-    <div class="section-title">🗺️ خريطة الاستكشاف الميداني</div>
-    <div class="map-grid">
-        <div class="map-card" onclick="exploreMap('ruins')">
-            <h4>🏚️ الأنقاض السفلى</h4>
-            <p>خطر منخفض | طعام ومعدات</p>
-        </div>
-        <div class="map-card" onclick="exploreMap('bunker')">
-            <h4>⚙️ الملجأ المهجور</h4>
-            <p>خطر متوسط | تقنيات وطاقة</p>
-        </div>
-        <div class="map-card" onclick="exploreMap('cave')">
-            <h4>🕳️ كهف الهاوية</h4>
-            <p>خطر عالي | موارد نادرة</p>
-        </div>
-        <div class="map-card" onclick="exploreMap('camp')">
-            <h4>⛺ المعسكر الرئيسي</h4>
-            <p>منطقة آمنة | راحة تامة</p>
+    <div class="panel">
+        <div style="font-size: 11px; font-weight: bold; color: #22c55e; margin-bottom: 4px;">🗺️ خريطة الاستكشاف الميداني</div>
+        <div class="map-grid">
+            <button class="map-btn" onclick="game.explore('ruins')">
+                <b>🏚️ الأنقاض المهدمة</b>
+                <span>الحصول على طعام ومؤن</span>
+            </button>
+            <button class="map-btn" onclick="game.explore('bunker')">
+                <b>⚙️ المولد القديم</b>
+                <span>إصلاح وتوليد طاقة</span>
+            </button>
+            <button class="map-btn" onclick="game.explore('forest')">
+                <b>🌲 الغابة المحيطة</b>
+                <span>جمع أخشاب ومواد بناء</span>
+            </button>
+            <button class="map-btn" onclick="game.explore('scout')">
+                <b>🔭 نقطة الاستطلاع</b>
+                <span>كشف المخاطر القادمة</span>
+            </button>
         </div>
     </div>
 
-    <button class="action-btn btn-green" onclick="passDay()">إنهاء اليوم والتقدم لليوم التالي</button>
+    <button class="action-main" onclick="game.nextDay()">إنهاء اليوم وبدء دورة جديدة ⏳</button>
 
-    <div class="log-box" id="gameLog">
-        [بداية القصة]: استيقظت في الهاوية بعد اكتشاف الخيانة الكبرى. عليك إدارة الناجين والبقاء على قنوات الحياة حتى النجاة.
-    </div>
-</div>
-
-<!-- نافذة الأحداث العشوائية -->
-<div class="modal" id="eventModal">
-    <div class="modal-content">
-        <h3 style="margin-top:0; color:#fbbf24;">⚠️ حدث طارئ في الملجأ</h3>
-        <p id="eventDesc" style="font-size: 13px; color:#d1d5db;"></p>
-        <button class="action-btn" id="btnEvent1" onclick="resolveEvent(1)">تخطي الأزمة</button>
-        <button class="action-btn btn-red" id="btnEvent2" onclick="resolveEvent(2)" style="margin-top:6px;">مواجهة مباشرة</button>
+    <div class="console" id="gameLog">
+        [النظام]: تم تشغيل محرك اللعبة الاستراتيجي بنجاح. قم بإدارة مواردك واستكشاف الخريطة للبقاء على قيد الحياة.
     </div>
 </div>
 
 <script>
-    let state = {
+    const game = {
         day: 1,
         survivors: 6,
-        food: 80,
+        food: 100,
         energy: 100,
-        defense: 40,
-        items: 0,
-        status: "مستقر"
+        defense: 50,
+        threat: "منخفض",
+
+        log(msg) {
+            const box = document.getElementById("gameLog");
+            box.innerHTML += `<br>[يوم ${this.day}] ${msg}`;
+            box.scrollTop = box.scrollHeight;
+        },
+
+        updateUI() {
+            document.getElementById("lblDay").innerText = this.day;
+            document.getElementById("lblSurvivors").innerText = this.survivors;
+            document.getElementById("lblThreat").innerText = this.threat;
+            document.getElementById("resFood").innerText = this.food;
+            document.getElementById("resEnergy").innerText = this.energy;
+            document.getElementById("resDefense").innerText = this.defense;
+        },
+
+        explore(type) {
+            if (this.energy < 15) {
+                this.log("❌ طاقة الملجأ منخفضة جداً لتنفيذ المهمة!");
+                return;
+            }
+
+            if (type === 'ruins') {
+                this.energy -= 15;
+                let found = Math.floor(Math.random() * 20) + 10;
+                this.food += found;
+                this.log(`🔍 عاد فريق الاستطلاع من الأنقاض ومعه ${found} وحدة طعام.`);
+            } else if (type === 'bunker') {
+                this.energy -= 20;
+                let power = Math.floor(Math.random() * 25) + 15;
+                this.energy = Math.min(100, this.energy + power);
+                this.log(`⚙️ نجح الفريق بإصلاح أجزاء من المولد (+${power} طاقة).`);
+            } else if (type === 'forest') {
+                this.energy -= 15;
+                let def = Math.floor(Math.random() * 15) + 5;
+                this.defense += def;
+                this.log(`🌲 تم جلب أخشاب ومعدات لتدعيم السور (+${def} دفاع).`);
+            } else if (type === 'scout') {
+                this.energy -= 10;
+                this.threat = Math.random() > 0.5 ? "متوسط" : "مرتفع وخطر";
+                this.log(`🔭 تقرير الاستطلاع: مستوى التهديد الخارجي أصبح (${this.threat}).`);
+            }
+
+            this.updateUI();
+        },
+
+        nextDay() {
+            this.day++;
+            let consumed = this.survivors * 4;
+            this.food -= consumed;
+            this.energy = Math.max(0, this.energy - 10);
+
+            this.log(`🌅 شروق اليوم الجديد. استهلك الناجون ${consumed} وحدة طعام.`);
+
+            if (this.food <= 0) {
+                this.food = 0;
+                this.survivors = Math.max(0, this.survivors - 1);
+                this.log("⚠️ مجاعة كبرى! بدأ الناجون يفقدون حياتهم.");
+            }
+
+            // هجوم عشوائي
+            if (Math.random() < 0.4) {
+                let damage = Math.floor(Math.random() * 20) + 10;
+                this.defense -= damage;
+                this.log(`⚔️ هجوم مفاجئ من لصوص الخارج! تضررت التحصينات بقيمة ${damage}.`);
+                if (this.defense < 0) {
+                    this.defense = 0;
+                    this.survivors = Math.max(0, this.survivors - 2);
+                    this.log("💥 اختراق السور الدفاعي! خسرنا اثنين من الناجين.");
+                }
+            }
+
+            if (this.survivors <= 0) {
+                this.log("💀 انتهت اللعبة: سقط الملجأ ومات الجميع.");
+                alert("انتهت اللعبة! سقط الملجأ.");
+            }
+
+            this.updateUI();
+        }
     };
-
-    let activeEvent = null;
-
-    const eventsPool = [
-        { desc: "هاجمت مجموعة من اللصوص السور الخارجي للملجأ وسرقوا جزءاً من المؤن!", type: "raid" },
-        { desc: "تم العثور على مخزون سري من الطعام القديم تحت الأنقاض المنهارة.", type: "cache" },
-        { desc: "حاول أحد الناجين الهرب وسرقة مفاتيح المولد الرئيسي!", type: "betrayal" }
-    ];
-
-    function log(text) {
-        let box = document.getElementById("gameLog");
-        box.innerHTML += `<br>${text}`;
-        box.scrollTop = box.scrollHeight;
-    }
-
-    function updateUI() {
-        document.getElementById("vDay").innerText = state.day;
-        document.getElementById("vSurvivors").innerText = state.survivors;
-        document.getElementById("vFood").innerText = state.food;
-        document.getElementById("vEnergy").innerText = state.energy;
-        document.getElementById("vDefense").innerText = state.defense;
-        document.getElementById("vItems").innerText = state.items;
-        document.getElementById("vStatus").innerText = state.status;
-    }
-
-    function exploreMap(location) {
-        if (state.energy < 15 && location !== 'camp') {
-            log("❌ طاقتك منخفضة جداً! استرح في المعسكر الرئيسي أولاً.");
-            return;
-        }
-
-        if (location === 'ruins') {
-            state.energy -= 15;
-            let f = Math.floor(Math.random() * 20) + 10;
-            state.food += f;
-            log(`🔍 استكشفت الأنقاض السفلى وحصلت على ${f} وحدة طعام.`);
-        } else if (location === 'bunker') {
-            state.energy -= 25;
-            state.defense += 10;
-            state.items += 1;
-            log(`⚙️ أمنت جزءاً من الملجأ المهجور ورفعت الدفاع وطورت العتاد.`);
-        } else if (location === 'cave') {
-            state.energy -= 35;
-            let bonus = Math.floor(Math.random() * 30) + 15;
-            state.food += bonus;
-            state.items += 2;
-            log(`🕳️ غامرت داخل كهف الهاوية وعدت بغنائم نادرة ومؤن ضخمة (${bonus}).`);
-        } else if (location === 'camp') {
-            state.energy = Math.min(100, state.energy + 50);
-            log(`⛺ استرحت مع الناجين في المعسكر واستعدت جزءاً كبيراً من الطاقة.`);
-        }
-
-        state.energy = Math.max(0, state.energy);
-        updateUI();
-    }
-
-    function passDay() {
-        state.day++;
-        // استهلاك يومي
-        let foodConsumed = state.survivors * 4;
-        state.food -= foodConsumed;
-        state.energy = Math.min(100, state.energy + 20);
-
-        log(`📅 بدأ اليوم الجديد (${state.day}) - استهلك الناجون ${foodConsumed} وحدة طعام.`);
-
-        if (state.food <= 0) {
-            state.food = 0;
-            state.survivors = Math.max(0, state.survivors - 1);
-            state.status = "مجاعة";
-            log("⚠️ تحذير خطير: نفد الطعام وبدأ الناجون بالموت جوعاً!");
-        }
-
-        if (state.survivors <= 0) {
-            log("💀 انتهت اللعبة: مات جميع الناجين في الهاوية.");
-            alert("انتهت اللعبة! مات الجميع.");
-            return;
-        }
-
-        // احداث عشوائية بنسبة 50%
-        if (Math.random() < 0.5) {
-            triggerEvent();
-        }
-
-        updateUI();
-    }
-
-    function triggerEvent() {
-        activeEvent = eventsPool[Math.floor(Math.random() * eventsPool.length)];
-        document.getElementById("eventDesc").innerText = activeEvent.desc;
-        document.getElementById("eventModal").style.display = "flex";
-    }
-
-    function resolveEvent(choice) {
-        document.getElementById("eventModal").style.display = "none";
-        if (activeEvent.type === "raid") {
-            if (choice === 1) {
-                state.food = Math.max(0, state.food - 15);
-                log("🛡️ تم تفادي الهجوم بدفع فدية طعام جزئية.");
-            } else {
-                state.defense = Math.max(0, state.defense - 15);
-                log("⚔️ تمت المواجهة بقوة وتكبيد اللصوص خسائر بالدفاع.");
-            }
-        } else if (activeEvent.type === "cache") {
-            state.food += 35;
-            log("🎉 حال الحظ العثور على المؤن المخفية بالكامل (+35 طعام).");
-        } else if (activeEvent.type === "betrayal") {
-            if (choice === 1) {
-                state.survivors = Math.max(1, state.survivors - 1);
-                log("⚡ هرب الخائن ومعه بعض الأسرار، وفقدنا ناجياً واحداً.");
-            } else {
-                state.energy = Math.max(0, state.energy - 25);
-                log("🔒 تم القبض على الخائن وإحباط المخطط على حساب طاقة الفريق.");
-            }
-        }
-        activeEvent = null;
-        updateUI();
-    }
 </script>
 
 </body>
