@@ -3,146 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مشروع الملجأ: الإصدار المتكامل</title>
+    <title>خريطة البقاء: استكشاف الهاوية</title>
     <style>
-        :root { --bg: #09090b; --card: #18181b; --border: #27272a; --accent: #3b82f6; --danger: #ef4444; --success: #10b981; }
-        body { background: var(--bg); color: #f4f4f5; font-family: Tahoma, sans-serif; margin: 0; padding: 10px; text-align: center; }
-        .wrapper { max-width: 450px; margin: auto; background: var(--card); padding: 14px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        .top-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
-        .badge { background: #202025; padding: 8px 4px; border-radius: 6px; font-size: 12px; border: 1px solid var(--border); }
-        .section-box { background: #121215; border: 1px solid var(--border); padding: 10px; border-radius: 8px; margin-bottom: 10px; text-align: right; }
-        .room-row { display: flex; justify-content: space-between; align-items: center; margin: 6px 0; font-size: 13px; }
-        button { background: var(--accent); color: #fff; border: none; padding: 6px 12px; font-size: 12px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        button:active { opacity: 0.8; }
-        .btn-green { background: var(--success); }
-        .btn-red { background: var(--danger); }
-        .console-log { background: #050507; border: 1px solid var(--border); color: #a1a1aa; font-size: 11px; padding: 8px; border-radius: 6px; height: 80px; overflow-y: auto; text-align: right; margin-top: 10px; }
+        :root { --bg: #0c0c0e; --card: #16161a; --border: #2c2c35; --accent: #f59e0b; }
+        body { background: var(--bg); color: #f3f4f6; font-family: Tahoma, sans-serif; margin: 0; padding: 10px; text-align: center; }
+        .wrapper { max-width: 440px; margin: auto; background: var(--card); padding: 14px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 8px 20px rgba(0,0,0,0.7); }
+        .stats-bar { display: flex; justify-content: space-around; background: #1f1f26; padding: 8px; border-radius: 6px; font-size: 13px; margin-bottom: 12px; font-weight: bold; }
+        .map-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px; }
+        .map-node { background: #22222d; border: 1px solid var(--border); padding: 12px; border-radius: 8px; cursor: pointer; text-align: center; transition: 0.2s; }
+        .map-node:active { background: #2f2f3d; }
+        .map-node h4 { margin: 0 0 6px 0; color: #fbbf24; font-size: 14px; }
+        .map-node p { margin: 0; font-size: 11px; color: #9ca3af; }
+        button { background: var(--accent); color: #000; border: none; padding: 6px 10px; font-size: 11px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 6px; }
+        .log-box { background: #08080a; border: 1px solid var(--border); color: #d1d5db; font-size: 11px; padding: 8px; border-radius: 6px; height: 90px; overflow-y: auto; text-align: right; }
     </style>
 </head>
 <body>
 
 <div class="wrapper">
-    <h3 style="margin: 5px 0 12px 0;">🛡️ نظام إدارة الملجأ المتقدم</h3>
+    <h3 style="margin: 5px 0 10px 0;">🗺️ خريطة الاستكشاف الباقي</h3>
 
-    <div class="top-bar">
-        <div class="badge">📅 اليوم: <span id="vDay">1</span></div>
-        <div class="badge">👥 الناجون: <span id="vSurvivors">6</span></div>
-        <div class="badge">🌤️ الطقس: <span id="vWeather">مستقر</span></div>
+    <div class="stats-bar">
+        <span>🍖 طعام: <span id="sFood">50</span></span>
+        <span>⚡ طاقة: <span id="sEnergy">100</span></span>
+        <span>🎒 مخزون: <span id="sItems">0</span></span>
     </div>
 
-    <div class="section-box">
-        <div style="font-weight: bold; margin-bottom: 6px; color: #60a5fa;">📊 مؤشرات الموارد الأساسية</div>
-        <div style="font-size: 13px; margin: 4px 0;">🍖 الطعام والمؤن: <span id="vFood">100</span></div>
-        <div style="font-size: 13px; margin: 4px 0;">⚡ طاقة المولد: <span id="vEnergy">100</span></div>
-        <div style="font-size: 13px; margin: 4px 0;">🛡️ درع الدفاع: <span id="vDefense">50</span></div>
-    </div>
-
-    <div class="section-box">
-        <div style="font-weight: bold; margin-bottom: 6px; color: #34d399;">⚙️ تخصيص الأقسام والعمل</div>
-        <div class="room-row">
-            <span>مزرعة الطعام (عاملين: <span id="wFood">2</span>)</span>
-            <button class="btn-green" onclick="assign('food', 1)">+ إضافة</button>
+    <div style="font-size: 12px; color: #9ca3af; margin-bottom: 6px; text-align: right;">اختر موقعاً على الخريطة للاستكشاف:</div>
+    
+    <div class="map-grid">
+        <div class="map-node" onclick="explore('ruins')">
+            <h4>🏚️ الأنقاض القديمة</h4>
+            <p>خطر منخفض | طعام وأدوات</p>
+            <button>استكشاف</button>
         </div>
-        <div class="room-row">
-            <span>مولد الطاقة (عاملين: <span id="wEnergy">2</span>)</span>
-            <button class="btn-green" onclick="assign('energy', 1)">+ إضافة</button>
+        <div class="map-node" onclick="explore('forest')">
+            <h4>🌲 الغابة المظلمة</h4>
+            <p>متوسط | أخشاب ومؤن</p>
+            <button>استكشاف</button>
         </div>
-        <div class="room-row">
-            <span>فريق الدفاع (عاملين: <span id="wDefense">2</span>)</span>
-            <button class="btn-green" onclick="assign('defense', 1)">+ إضافة</button>
+        <div class="map-node" onclick="explore('bunker')">
+            <h4>🛡️ الملجأ المهجور</h4>
+            <p>مرتفع | تقنيات وطاقة</p>
+            <button>استكشاف</button>
+        </div>
+        <div class="map-node" onclick="explore('base')">
+            <h4>⛺ المعسكر الرئيسي</h4>
+            <p>آمن | راحة واسترجاع طاقة</p>
+            <button>استراحة</button>
         </div>
     </div>
 
-    <div class="section-box">
-        <div style="font-weight: bold; margin-bottom: 6px; color: #f87171;">⚡ إجراءات طارئة</div>
-        <button class="btn-red" onclick="triggerScavenge()">إرسال حملة بحث سريعة</button>
-    </div>
-
-    <div class="console-log" id="gameConsole">
-        [00:00] تم تفعيل النظام الشامل للملجأ بنجاح. البقاء للأسجى...
+    <div class="log-box" id="gameLog">
+        [00:00] خريطة العالم مفتوحة. اختر موقعاً للتحرك إليه وجمع المؤن.
     </div>
 </div>
 
 <script>
-    let state = {
-        day: 1,
-        survivors: 6,
-        food: 100,
-        energy: 100,
-        defense: 50,
-        workers: { food: 2, energy: 2, defense: 2 },
-        weather: "مستقر وطبيعي"
-    };
-
-    const weatherTypes = ["مستقر وطبيعي", "عاصفة رملية باردة", "خطر هجوم خارجي", "طقس حمضي ضبابي"];
-
-    const gameInterval = setInterval(() => {
-        // استهلاك الموارد بناءً على عدد الناجين
-        state.food -= Math.max(1, (state.survivors - (state.workers.food * 1.5)));
-        state.energy -= Math.max(1, (state.survivors - (state.workers.energy * 1.5)));
-        
-        // إنتاج الموارد من العمال
-        state.food += state.workers.food * 2;
-        state.energy += state.workers.energy * 2;
-        
-        // تطبيق الحدود الدنيا
-        state.food = Math.max(0, Math.floor(state.food));
-        state.energy = Math.max(0, Math.floor(state.energy));
-
-        // تغيير اليوم تدريجياً
-        if (Math.random() < 0.2) {
-            state.day++;
-            state.weather = weatherTypes[Math.floor(Math.random() * weatherTypes.length)];
-            log(`بدء اليوم الجديد (${state.day}) - حالة الجو: ${state.weather}`);
-        }
-
-        if (state.food <= 0 || state.energy <= 0) {
-            log("⚠️ تحذير خطير: النفاد التام للموارد يؤدي لخسارة الأرواح!");
-            state.survivors = Math.max(0, state.survivors - 1);
-        }
-
-        updateDOM();
-    }, 4000);
-
-    function updateDOM() {
-        document.getElementById("vDay").innerText = state.day;
-        document.getElementById("vSurvivors").innerText = state.survivors;
-        document.getElementById("vWeather").innerText = state.weather;
-        document.getElementById("vFood").innerText = state.food;
-        document.getElementById("vEnergy").innerText = state.energy;
-        document.getElementById("vDefense").innerText = state.defense;
-        
-        document.getElementById("wFood").innerText = state.workers.food;
-        document.getElementById("wEnergy").innerText = state.workers.energy;
-        document.getElementById("wDefense").innerText = state.workers.defense;
-    }
+    let player = { food: 50, energy: 100, items: 0 };
 
     function log(text) {
-        let box = document.getElementById("gameConsole");
-        box.innerHTML += `<br>[يوم ${state.day}] ${text}`;
+        let box = document.getElementById("gameLog");
+        box.innerHTML += `<br>${text}`;
         box.scrollTop = box.scrollHeight;
     }
 
-    function assign(type, amount) {
-        if (state.survivors > (state.workers.food + state.workers.energy + state.workers.defense)) {
-            state.workers[type] += amount;
-            log(`تم تعيين ناجٍ جديد في قطاع: ${type}`);
-            updateDOM();
-        } else {
-            log("❌ لا يوجد ناجون أحرار كافيون للتعيين!");
-        }
+    function updateUI() {
+        document.getElementById("sFood").innerText = player.food;
+        document.getElementById("sEnergy").innerText = player.energy;
+        document.getElementById("sItems").innerText = player.items;
     }
 
-    function triggerScavenge() {
-        if (state.energy < 10) {
-            log("❌ الطاقة منخفضة جداً لتنفيذ الاستطلاع.");
+    function explore(location) {
+        if (player.energy <= 0 && location !== 'base') {
+            log("❌ الطاقة نفدت تماماً! يجب عليك العودة للاستراحة في المعسكر.");
             return;
         }
-        state.energy -= 10;
-        let found = Math.floor(Math.random() * 25) + 10;
-        state.food += found;
-        log(`🎉 عادت فرقة البحث ومعها حصيلة مؤن تقدر بـ ${found} وحدة.`);
-        updateDOM();
+
+        if (location === 'ruins') {
+            player.energy -= 15;
+            let f = Math.floor(Math.random() * 15) + 5;
+            player.food += f;
+            log(`🔍 فتشت الأنقاض ووجدت ${f} وحدة طعام.`);
+        } else if (location === 'forest') {
+            player.energy -= 20;
+            let i = Math.floor(Math.random() * 3) + 1;
+            player.items += i;
+            log(`🌲 دخلت الغابة وجمعْت ${i} قطع أداة/معدات.`);
+        } else if (location === 'bunker') {
+            player.energy -= 30;
+            player.food += 20;
+            player.items += 2;
+            log(`🛡️ حققت اقتحاماً ناجحاً للملجأ وحصلت على غنيمة وفيرة.`);
+        } else if (location === 'base') {
+            player.energy = Math.min(100, player.energy + 40);
+            log(`⛺ استرحت في المعسكر واستعدت جزءاً من طاقتك.`);
+        }
+
+        player.energy = Math.max(0, player.energy);
+        player.food = Math.max(0, player.food);
+        updateUI();
     }
 </script>
 
