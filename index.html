@@ -3,151 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ملجأ البقاء: العزلة الكبرى</title>
+    <title>مشروع الملجأ: الإصدار المتكامل</title>
     <style>
-        body { background: #0b0b0d; color: #f1f1f1; font-family: Tahoma, sans-serif; padding: 12px; margin: 0; text-align: center; }
-        .container { max-width: 440px; margin: auto; background: #16161a; padding: 16px; border-radius: 14px; border: 1px solid #2a2a35; box-shadow: 0 4px 20px rgba(0,0,0,0.6); }
-        .header { display: flex; justify-content: space-between; background: #1f1f26; padding: 10px 14px; border-radius: 8px; margin-bottom: 12px; font-size: 14px; font-weight: bold; }
-        .stat-card { background: #22222c; padding: 10px; border-radius: 8px; margin: 8px 0; text-align: right; border-right: 4px solid #3b82f6; }
-        .event-box { background: #2b1d1d; border: 1px solid #ef4444; padding: 12px; border-radius: 8px; margin: 12px 0; text-align: right; display: none; }
-        button { background: #3b82f6; color: #fff; border: none; padding: 8px 14px; font-size: 13px; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 6px; }
-        button:active { background: #2563eb; }
-        .btn-danger { background: #ef4444; }
-        .btn-danger:active { background: #dc2626; }
-        .log-box { background: #111114; padding: 8px; border-radius: 6px; font-size: 12px; color: #9ca3af; height: 70px; overflow-y: auto; text-align: right; margin-top: 10px; border: 1px solid #222; }
+        :root { --bg: #09090b; --card: #18181b; --border: #27272a; --accent: #3b82f6; --danger: #ef4444; --success: #10b981; }
+        body { background: var(--bg); color: #f4f4f5; font-family: Tahoma, sans-serif; margin: 0; padding: 10px; text-align: center; }
+        .wrapper { max-width: 450px; margin: auto; background: var(--card); padding: 14px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .top-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
+        .badge { background: #202025; padding: 8px 4px; border-radius: 6px; font-size: 12px; border: 1px solid var(--border); }
+        .section-box { background: #121215; border: 1px solid var(--border); padding: 10px; border-radius: 8px; margin-bottom: 10px; text-align: right; }
+        .room-row { display: flex; justify-content: space-between; align-items: center; margin: 6px 0; font-size: 13px; }
+        button { background: var(--accent); color: #fff; border: none; padding: 6px 12px; font-size: 12px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        button:active { opacity: 0.8; }
+        .btn-green { background: var(--success); }
+        .btn-red { background: var(--danger); }
+        .console-log { background: #050507; border: 1px solid var(--border); color: #a1a1aa; font-size: 11px; padding: 8px; border-radius: 6px; height: 80px; overflow-y: auto; text-align: right; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>ملجأ البقاء: العزلة</h2>
-    
-    <div class="header">
-        <span>اليوم: <span id="day">1</span></span>
-        <span>الناجون: <span id="survivors">5</span></span>
+<div class="wrapper">
+    <h3 style="margin: 5px 0 12px 0;">🛡️ نظام إدارة الملجأ المتقدم</h3>
+
+    <div class="top-bar">
+        <div class="badge">📅 اليوم: <span id="vDay">1</span></div>
+        <div class="badge">👥 الناجون: <span id="vSurvivors">6</span></div>
+        <div class="badge">🌤️ الطقس: <span id="vWeather">مستقر</span></div>
     </div>
 
-    <div class="stat-card">
-        <div>🍖 الطعام: <span id="food">60</span></div>
-        <div>⚡ الطاقة: <span id="energy">80</span></div>
-        <div>🛡️ الدفاع: <span id="defense">30</span></div>
+    <div class="section-box">
+        <div style="font-weight: bold; margin-bottom: 6px; color: #60a5fa;">📊 مؤشرات الموارد الأساسية</div>
+        <div style="font-size: 13px; margin: 4px 0;">🍖 الطعام والمؤن: <span id="vFood">100</span></div>
+        <div style="font-size: 13px; margin: 4px 0;">⚡ طاقة المولد: <span id="vEnergy">100</span></div>
+        <div style="font-size: 13px; margin: 4px 0;">🛡️ درع الدفاع: <span id="vDefense">50</span></div>
     </div>
 
-    <div id="eventBox" class="event-box">
-        <div id="eventText" style="font-weight: bold; margin-bottom: 8px;">حدث طارئ!</div>
-        <button id="btnChoice1" onclick="handleEventChoice(1)">إجراء أول</button>
-        <button id="btnChoice2" onclick="handleEventChoice(2)" class="btn-danger">إجراء ثاني</button>
+    <div class="section-box">
+        <div style="font-weight: bold; margin-bottom: 6px; color: #34d399;">⚙️ تخصيص الأقسام والعمل</div>
+        <div class="room-row">
+            <span>مزرعة الطعام (عاملين: <span id="wFood">2</span>)</span>
+            <button class="btn-green" onclick="assign('food', 1)">+ إضافة</button>
+        </div>
+        <div class="room-row">
+            <span>مولد الطاقة (عاملين: <span id="wEnergy">2</span>)</span>
+            <button class="btn-green" onclick="assign('energy', 1)">+ إضافة</button>
+        </div>
+        <div class="room-row">
+            <span>فريق الدفاع (عاملين: <span id="wDefense">2</span>)</span>
+            <button class="btn-green" onclick="assign('defense', 1)">+ إضافة</button>
+        </div>
     </div>
 
-    <div class="stat-card" style="border-right-color: #10b981;">
-        <b>إدارة المهام اليومية</b>
-        <div style="font-size: 13px; color: #d1d5db; margin: 6px 0;">أرسل ناجين للبحث عن موارد خارج الملجأ.</div>
-        <button onclick="scavenge()">إرسال فريق استطلاع (تکلفة طاقة)</button>
+    <div class="section-box">
+        <div style="font-weight: bold; margin-bottom: 6px; color: #f87171;">⚡ إجراءات طارئة</div>
+        <button class="btn-red" onclick="triggerScavenge()">إرسال حملة بحث سريعة</button>
     </div>
 
-    <div class="log-box" id="logBox">
-        [00:00] تم تأسيس الملجأ بنجاح وبدء العد التنازلي للبقاء.
+    <div class="console-log" id="gameConsole">
+        [00:00] تم تفعيل النظام الشامل للملجأ بنجاح. البقاء للأسجى...
     </div>
 </div>
 
 <script>
-    let day = 1;
-    let survivors = 5;
-    let food = 60;
-    let energy = 80;
-    let defense = 30;
-    let currentEvent = null;
+    let state = {
+        day: 1,
+        survivors: 6,
+        food: 100,
+        energy: 100,
+        defense: 50,
+        workers: { food: 2, energy: 2, defense: 2 },
+        weather: "مستقر وطبيعي"
+    };
 
-    const eventsList = [
-        { text: "هجوم لصوص على السور الخارجي للملجأ!", c1: "الدفاع بقوة (-طاقة)", c2: "التفاوض وإعطائهم طعام", type: "attack" },
-        { text: "وجد فريق الاستطلاع مستودع أدوية ومؤن مهجور.", c1: "نهب الكل (+طعام)", c2: "بحذر وتأمين المكان (+دفاع)", type: "loot" },
-        { text: "انضم ناجٍ تائه إلى البوابة يبحث عن مأوى.", c1: "قبوله (+ناجي)", c2: "رفضه حفاظاً على الموارد", type: "survivor" }
-    ];
+    const weatherTypes = ["مستقر وطبيعي", "عاصفة رملية باردة", "خطر هجوم خارجي", "طقس حمضي ضبابي"];
 
-    const gameLoop = setInterval(() => {
-        food -= survivors * 1.5;
-        energy -= survivors * 1;
+    const gameInterval = setInterval(() => {
+        // استهلاك الموارد بناءً على عدد الناجين
+        state.food -= Math.max(1, (state.survivors - (state.workers.food * 1.5)));
+        state.energy -= Math.max(1, (state.survivors - (state.workers.energy * 1.5)));
         
-        if (food <= 0 || energy <= 0) {
-            food = Math.max(0, food);
-            energy = Math.max(0, energy);
-            log("تحذير: نفدت المؤن وبدأ الناجون بالهلاك!");
-            survivors = Math.max(0, survivors - 1);
+        // إنتاج الموارد من العمال
+        state.food += state.workers.food * 2;
+        state.energy += state.workers.energy * 2;
+        
+        // تطبيق الحدود الدنيا
+        state.food = Math.max(0, Math.floor(state.food));
+        state.energy = Math.max(0, Math.floor(state.energy));
+
+        // تغيير اليوم تدريجياً
+        if (Math.random() < 0.2) {
+            state.day++;
+            state.weather = weatherTypes[Math.floor(Math.random() * weatherTypes.length)];
+            log(`بدء اليوم الجديد (${state.day}) - حالة الجو: ${state.weather}`);
         }
 
-        if (Math.random() < 0.25 && !currentEvent) {
-            triggerRandomEvent();
+        if (state.food <= 0 || state.energy <= 0) {
+            log("⚠️ تحذير خطير: النفاد التام للموارد يؤدي لخسارة الأرواح!");
+            state.survivors = Math.max(0, state.survivors - 1);
         }
 
-        updateUI();
-    }, 5000);
+        updateDOM();
+    }, 4000);
 
-    function updateUI() {
-        document.getElementById("day").innerText = day;
-        document.getElementById("survivors").innerText = survivors;
-        document.getElementById("food").innerText = Math.floor(food);
-        document.getElementById("energy").innerText = Math.floor(energy);
-        document.getElementById("defense").innerText = defense;
-        if(survivors <= 0) {
-            clearInterval(gameLoop);
-            log("انتهت اللعبة: مات الجميع.");
-        }
+    function updateDOM() {
+        document.getElementById("vDay").innerText = state.day;
+        document.getElementById("vSurvivors").innerText = state.survivors;
+        document.getElementById("vWeather").innerText = state.weather;
+        document.getElementById("vFood").innerText = state.food;
+        document.getElementById("vEnergy").innerText = state.energy;
+        document.getElementById("vDefense").innerText = state.defense;
+        
+        document.getElementById("wFood").innerText = state.workers.food;
+        document.getElementById("wEnergy").innerText = state.workers.energy;
+        document.getElementById("wDefense").innerText = state.workers.defense;
     }
 
-    function log(txt) {
-        let box = document.getElementById("logBox");
-        box.innerHTML += `<br>[يوم ${day}] ${txt}`;
+    function log(text) {
+        let box = document.getElementById("gameConsole");
+        box.innerHTML += `<br>[يوم ${state.day}] ${text}`;
         box.scrollTop = box.scrollHeight;
     }
 
-    function scavenge() {
-        if (energy < 15) { log("الطاقة منخفضة جداً للاستطلاع!"); return; }
-        energy -= 15;
-        let found = Math.floor(Math.random() * 20) + 10;
-        food += found;
-        log(`عادت فرقة الاستطلاع ومعها ${found} وحدة طعام.`);
-        day++;
-        updateUI();
-    }
-
-    function triggerRandomEvent() {
-        currentEvent = eventsList[Math.floor(Math.random() * eventsList.length)];
-        document.getElementById("eventText").innerText = currentEvent.text;
-        document.getElementById("btnChoice1").innerText = currentEvent.c1;
-        document.getElementById("btnChoice2").innerText = currentEvent.c2;
-        document.getElementById("eventBox").style.display = "block";
-    }
-
-    function handleEventChoice(choice) {
-        let box = document.getElementById("eventBox");
-        box.style.display = "none";
-        
-        if (currentEvent.type === "attack") {
-            if (choice === 1) {
-                energy -= 20;
-                log("تم صصد الهجوم بنجاح وتكبيدهم خسائر.");
-            } else {
-                food -= 20;
-                log("تم دفع الجزية من الطعام لشراء سلامتهم.");
-            }
-        } else if (currentEvent.type === "loot") {
-            if (choice === 1) {
-                food += 35;
-                log("حصلت على مؤن وفيرة من المستودع.");
-            } else {
-                defense += 15;
-                log("استفدت من الحطام لتقوية دفاعات السور.");
-            }
-        } else if (currentEvent.type === "survivor") {
-            if (choice === 1) {
-                survivors++;
-                log("انضم ناجٍ جديد إلى طاقم الملجأ.");
-            } else {
-                log("تم رفض الناجي وغادر المنطقة.");
-            }
+    function assign(type, amount) {
+        if (state.survivors > (state.workers.food + state.workers.energy + state.workers.defense)) {
+            state.workers[type] += amount;
+            log(`تم تعيين ناجٍ جديد في قطاع: ${type}`);
+            updateDOM();
+        } else {
+            log("❌ لا يوجد ناجون أحرار كافيون للتعيين!");
         }
-        currentEvent = null;
-        updateUI();
+    }
+
+    function triggerScavenge() {
+        if (state.energy < 10) {
+            log("❌ الطاقة منخفضة جداً لتنفيذ الاستطلاع.");
+            return;
+        }
+        state.energy -= 10;
+        let found = Math.floor(Math.random() * 25) + 10;
+        state.food += found;
+        log(`🎉 عادت فرقة البحث ومعها حصيلة مؤن تقدر بـ ${found} وحدة.`);
+        updateDOM();
     }
 </script>
 
