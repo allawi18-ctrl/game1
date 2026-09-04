@@ -3,133 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>استراتيجية البقاء: الملجأ الأخير v2</title>
+    <title>لعبة البقاء الاستراتيجية</title>
     <style>
-        * { box-sizing: border-box; }
-        body { background: #050507; color: #f1f5f9; font-family: Tahoma, sans-serif; margin: 0; padding: 10px; text-align: center; }
-        .box { max-width: 420px; margin: auto; background: #121218; padding: 12px; border-radius: 12px; border: 1px solid #262636; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-        h3 { margin: 4px 0 10px 0; color: #38bdf8; font-size: 15px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 8px; }
-        .card { background: #1a1a24; padding: 6px; border-radius: 6px; font-size: 11px; border: 1px solid #2e2e42; }
-        .card b { display: block; font-size: 13px; margin-top: 2px; color: #34d399; }
-        .panel { background: #181822; border: 1px solid #2a2a3d; padding: 8px; border-radius: 6px; margin-bottom: 8px; text-align: right; }
-        .row { display: flex; justify-content: space-between; font-size: 12px; margin: 5px 0; padding: 4px 6px; background: #111117; border-radius: 4px; }
+        body { background: #09090b; color: #f4f4f5; font-family: Tahoma, sans-serif; margin: 0; padding: 10px; text-align: center; }
+        .wrap { max-width: 400px; margin: auto; background: #18181b; padding: 12px; border-radius: 10px; border: 1px solid #27272a; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-bottom: 10px; }
+        .box { background: #27272a; padding: 8px; border-radius: 6px; font-size: 11px; }
+        .box b { display: block; font-size: 13px; color: #38bdf8; margin-top: 2px; }
+        .panel { background: #121214; padding: 8px; border-radius: 6px; margin-bottom: 8px; text-align: right; font-size: 12px; }
+        .row { display: flex; justify-content: space-between; margin: 4px 0; }
         .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
-        .m-btn { background: #1f1f33; border: 1px solid #3b3b5c; color: #fff; padding: 10px; border-radius: 6px; cursor: pointer; text-align: right; font-size: 11px; width: 100%; }
-        .m-btn:active { background: #2563eb; }
-        .m-btn span { display: block; color: #fbbf24; font-size: 12px; font-weight: bold; margin-bottom: 2px; }
-        .big-btn { width: 100%; background: #0284c7; color: #fff; border: none; padding: 10px; font-size: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 6px; }
-        .big-btn:active { background: #0369a1; }
-        .log { background: #08080c; border: 1px solid #1a1a26; color: #94a3b8; font-size: 10px; padding: 6px; border-radius: 6px; height: 80px; overflow-y: auto; text-align: right; margin-top: 8px; line-height: 1.3; }
+        button { background: #2563eb; color: white; border: none; padding: 10px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; }
+        button:active { background: #1d4ed8; }
+        .main-btn { width: 100%; background: #16a34a; margin-top: 6px; }
+        .log { background: #000; color: #a1a1aa; font-size: 10px; padding: 6px; border-radius: 6px; height: 75px; overflow-y: auto; text-align: right; margin-top: 8px; }
     </style>
 </head>
 <body>
 
-<div class="box">
-    <h3>🛡️ لعبة البقاء: محرك الملجأ</h3>
+<div class="wrap">
+    <h3 style="margin:5px 0 10px 0; color:#38bdf8;">🛡️ استراتيجية البقاء الحية</h3>
 
-    <div class="grid-3">
-        <div class="card">اليوم <b id="uiDay">1</b></div>
-        <div class="card">الناجون <b id="uiSurvivors" style="color:#60a5fa">6</b></div>
-        <div class="card">التهديد <b id="uiThreat" style="color:#f87171">منخفض</b></div>
+    <div class="grid">
+        <div class="box">اليوم <b id="d">1</b></div>
+        <div class="box">الناجون <b id="s" style="color:#4ade80">6</b></div>
+        <div class="box">التهديد <b id="t" style="color:#f87171">منخفض</b></div>
     </div>
 
     <div class="panel">
-        <div style="font-size:11px; font-weight:bold; color:#a855f7; margin-bottom:4px;">📊 الموارد الحية</div>
-        <div class="row"><span>🍖 الطعام:</span> <b id="uiFood" style="color:#f87171">100</b></div>
-        <div class="row"><span>⚡ الطاقة:</span> <b id="uiEnergy" style="color:#fbbf24">100</b></div>
-        <div class="row"><span>🧱 الدفاع:</span> <b id="uiDefense" style="color:#38bdf8">50</b></div>
+        <div style="font-weight:bold; color:#c084fc; margin-bottom:4px;">📊 الموارد والتحصينات</div>
+        <div class="row"><span>🍖 الطعام:</span> <b id="food" style="color:#f87171">100</b></div>
+        <div class="row"><span>⚡ الطاقة:</span> <b id="energy" style="color:#fbbf24">100</b></div>
+        <div class="row"><span>🧱 الدفاع:</span> <b id="def" style="color:#38bdf8">50</b></div>
     </div>
 
     <div class="panel">
-        <div style="font-size:11px; font-weight:bold; color:#22c55e; margin-bottom:4px;">🗺️ خريطة الاستكشاف</div>
+        <div style="font-weight:bold; color:#4ade80; margin-bottom:4px;">🗺️ أزرار الاستكشاف</div>
         <div class="btn-grid">
-            <button class="m-btn" onclick="doAction('ruins')"><span>🏚️ الأنقاض</span>تجميع طعام ومؤن</button>
-            <button class="m-btn" onclick="doAction('power')"><span>⚙️ المولد</span>إصلاح وتوليد طاقة</button>
-            <button class="m-btn" onclick="doAction('defense')"><span>🌲 الغابة</span>تقوية السور والدفاع</button>
-            <button class="m-btn" onclick="doAction('scout')"><span>🔭 الاستطلاع</span>كشف حالة الخطر</button>
+            <button onclick="action('ruins')">🏚️ الأنقاض (+طعام)</button>
+            <button onclick="action('power')">⚙️ المولد (+طاقة)</button>
+            <button onclick="action('defense')">🌲 الغابة (+دفاع)</button>
+            <button onclick="action('scout')">🔭 الاستطلاع</button>
         </div>
     </div>
 
-    <button class="big-btn" onclick="nextCycle()">إنهاء اليوم والتقدم للأمام ⏳</button>
+    <button class="main-btn" onclick="nextDay()">إنهاء اليوم وبدء دورة جديدة ⏳</button>
 
-    <div class="log" id="uiLog">
-        [النظام]: تم تشغيل اللعبة بنجاح. اضغط على أزرار الخريطة لتتفاعل الأرقام فوراً.
+    <div class="log" id="consoleLog">
+        [النظام]: تم تشغيل اللعبة بنجاح. اضغط الأزرار الآن لتتفاعل الأرقام فوراً.
     </div>
 </div>
 
 <script>
-    let state = { day: 1, survivors: 6, food: 100, energy: 100, defense: 50, threat: "منخفض" };
+    let game = { day: 1, survivors: 6, food: 100, energy: 100, defense: 50, threat: "منخفض" };
 
-    function addLog(text) {
-        let box = document.getElementById("uiLog");
-        box.innerHTML += `<br>[يوم ${state.day}] ${text}`;
+    function log(msg) {
+        let box = document.getElementById("consoleLog");
+        box.innerHTML += `<br>[يوم ${game.day}] ${msg}`;
         box.scrollTop = box.scrollHeight;
     }
 
-    function updateView() {
-        document.getElementById("uiDay").innerText = state.day;
-        document.getElementById("uiSurvivors").innerText = state.survivors;
-        document.getElementById("uiThreat").innerText = state.threat;
-        document.getElementById("uiFood").innerText = state.food;
-        document.getElementById("uiEnergy").innerText = state.energy;
-        document.getElementById("uiDefense").innerText = state.defense;
+    function update() {
+        document.getElementById("d").innerText = game.day;
+        document.getElementById("s").innerText = game.survivors;
+        document.getElementById("t").innerText = game.threat;
+        document.getElementById("food").innerText = game.food;
+        document.getElementById("energy").innerText = game.energy;
+        document.getElementById("def").innerText = game.defense;
     }
 
-    function doAction(type) {
-        if (state.energy < 15) {
-            addLog("❌ الطاقة منخفضة جداً! استرح أو أنهِ اليوم.");
+    function action(type) {
+        if (game.energy < 15) {
+            log("❌ الطاقة منخفضة جداً!");
             return;
         }
-
         if (type === 'ruins') {
-            state.energy -= 15;
-            let f = Math.floor(Math.random() * 20) + 10;
-            state.food += f;
-            addLog(`🔍 عاد الفريق من الأنقاض ومعه ${f} طعام.`);
+            game.energy -= 15;
+            let f = 15;
+            game.food += f;
+            log(`🔍 الأنقاض: جمعت ${f} وحدة طعام.`);
         } else if (type === 'power') {
-            state.energy -= 15;
-            let p = Math.floor(Math.random() * 25) + 10;
-            state.energy = Math.min(100, state.energy + p);
-            addLog(`⚙️ تم إصلاح المولد وزيادة الطاقة بقيمة +${p}.`);
+            game.energy = Math.min(100, game.energy + 20);
+            log(`⚙️ المولد: تم توليد طاقة إضافية.`);
         } else if (type === 'defense') {
-            state.energy -= 15;
-            let d = Math.floor(Math.random() * 15) + 5;
-            state.defense += d;
-            addLog(`🌲 تم جلب أخشاب وتدعيم السور بـ +${d} دفاع.`);
+            game.energy -= 15;
+            game.defense += 10;
+            log(`🌲 الغابة: تم جلب أخشاب وتدعيم السور.`);
         } else if (type === 'scout') {
-            state.energy -= 5;
-            state.threat = Math.random() > 0.5 ? "متوسط" : "مرتفع وخطير";
-            addLog(`🔭 تقرير الاستطلاع: مستوى التهديد الخارجي (${state.threat}).`);
+            game.threat = "متوسط وخطير";
+            log(`🔭 الاستطلاع: رصد تحركات مريبة في الخارج.`);
         }
-        updateView();
+        update();
     }
 
-    function nextCycle() {
-        state.day++;
-        let consumed = state.survivors * 4;
-        state.food -= consumed;
-        state.energy = Math.min(100, state.energy + 25);
-
-        addLog(`🌅 بدأ اليوم الجديد. استهلك الناجون ${consumed} وحدة طعام.`);
-
-        if (state.food <= 0) {
-            state.food = 0;
-            state.survivors = Math.max(0, state.survivors - 1);
-            addLog("⚠️ تحذير: نفد الطعام وبدأ الناجون بالموت جوعاً!");
+    function nextDay() {
+        game.day++;
+        game.food -= game.survivors * 3;
+        game.energy = 100;
+        log(`🌅 بدأ اليوم الجديد. استهلك الناجون المؤن.`);
+        
+        if (game.food <= 0) {
+            game.food = 0;
+            game.survivors = Math.max(0, game.survivors - 1);
+            log(`⚠️ مجاعة! بدأ الناجون يفقدون حياتهم.`);
         }
-
-        if (Math.random() < 0.4) {
-            let dmg = Math.floor(Math.random() * 15) + 5;
-            state.defense -= dmg;
-            addLog(`⚔️ هجوم مباغت من اللصوص! تضررت التحصينات بـ ${dmg} نقطة.`);
-        }
-
-        if (state.survivors <= 0) {
-            addLog("💀 انتهت اللعبة: سقط الملجأ ومات الجميع.");
-            alert("انتهت اللعبة! سقط الملجأ.");
-        }
-        updateView();
+        update();
     }
 </script>
 
