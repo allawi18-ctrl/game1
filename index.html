@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ملجأ البقاء: الخط الأخير</title>
+    <style>
+        body { background: #0f0f0f; color: #fff; font-family: Tahoma, sans-serif; text-align: center; padding: 10px; margin: 0; }
+        .shelter-box { max-width: 420px; margin: auto; background: #1a1a1a; padding: 15px; border-radius: 12px; border: 1px solid #333; }
+        .room { background: #262626; margin: 10px 0; padding: 12px; border-radius: 8px; border-right: 4px solid #ff9800; text-align: right; }
+        .stat-bar { font-size: 15px; margin: 5px 0; color: #ccc; }
+        button { background: #ff9800; color: #fff; border: none; padding: 8px 12px; font-size: 14px; border-radius: 6px; cursor: pointer; margin-top: 5px; font-weight: bold; }
+        button:active { background: #e68a00; }
+        .game-over { color: #ff5252; font-weight: bold; font-size: 18px; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+<div class="shelter-box">
+    <h2>إدارة الملجأ المصغر</h2>
+    <div class="stat-bar">طاقة الملجأ: <span id="energy">100</span>% | الطعام: <span id="food">50</span></div>
+    <div class="stat-bar">خطر الهجوم بعد: <span id="timer">180</span> ثانية</div>
+
+    <hr style="border-color: #333; margin: 10px 0;">
+
+    <div class="room">
+        <b>غرفة الطعام والمؤن</b>
+        <div>الناجون هنا: <span id="workersFood">2</span></div>
+        <button onclick="assignWorker('food')">نقل ناجٍ إضافي</button>
+    </div>
+
+    <div class="room">
+        <b>مولد الطاقة الرئيسي</b>
+        <div>الناجون هنا: <span id="workersEnergy">2</span></div>
+        <button onclick="assignWorker('energy')">نقل ناجٍ إضافي</button>
+    </div>
+
+    <div id="msg" class="game-over"></div>
+</div>
+
+<script>
+    let energy = 100;
+    let food = 50;
+    let timeLeft = 180;
+    let wFood = 2;
+    let wEnergy = 2;
+
+    const gameLoop = setInterval(() => {
+        energy -= (2 - (wEnergy * 0.4));
+        food -= (3 - (wFood * 0.4));
+        timeLeft -= 1;
+
+        if (energy <= 0 || food <= 0 || timeLeft <= 0) {
+            clearInterval(gameLoop);
+            document.getElementById("msg").innerText = "سقط الملجأ وانتهت اللعبة!";
+            disableAll();
+        }
+        updateScreen();
+    }, 1000);
+
+    function updateScreen() {
+        document.getElementById("energy").innerText = Math.max(0, Math.floor(energy));
+        document.getElementById("food").innerText = Math.max(0, Math.floor(food));
+        document.getElementById("timer").innerText = timeLeft;
+        document.getElementById("workersFood").innerText = wFood;
+        document.getElementById("workersEnergy").innerText = wEnergy;
+    }
+
+    function assignWorker(type) {
+        if (type === 'food') {
+            wFood++;
+            food += 5;
+        } else {
+            wEnergy++;
+            energy += 5;
+        }
+        updateScreen();
+    }
+
+    function disableAll() {
+        let btns = document.querySelectorAll("button");
+        btns.forEach(b => b.disabled = true);
+    }
+</script>
+
+</body>
+</html>
