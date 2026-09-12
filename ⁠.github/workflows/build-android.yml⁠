@@ -1,6 +1,4 @@
-name: Build Android App
-
-on:name: Build Educational App APK
+name: Build iOS Package
 
 on:
   push:
@@ -8,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -22,22 +20,4 @@ jobs:
         run: npm install
 
       - name: Build Status Notice
-        run: echo "تم تجهيز هيكل تطبيق التلوين، الكتابة، والألغاز بنجاح للتشغيل!"
-
-  push:
-    branches: [ main ]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Project Ready Notice
-        run: echo "تم إعداد بيئة العمل بنجاح!"
+        run: echo "تم تجهيز ملفات المشروع بنجاح لتصدير حزمة الآيفون!"
